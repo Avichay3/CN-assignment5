@@ -13,7 +13,7 @@ def packetSniffer(packet):
         tcp_header = packet[34:54]  # consist of the 35th byte and extends to the 54th byte
         payload_data = packet[54:]  # extracted from the packet, starting from the 55th byte
 
-        eth_fields = unpack("!6s6sH", ethernet_header)
+        eth_fields = unpack("!6s6sH", ethernet_header)  #  a
         source_mac = ':'.join('%02x' % b for b in eth_fields[0])
         dest_mac = ':'.join('%02x' % b for b in eth_fields[1])
 
