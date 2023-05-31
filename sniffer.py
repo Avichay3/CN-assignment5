@@ -5,15 +5,15 @@ from time import time
 output_file = '2117.txt'
 
 def packetSniffer(packet):
-    eth_header = packet[:14]
-    ip_header = packet[14:34]
-    protocol = ip_header[9]
+    ethernet_header = packet[:14]  # consist of the first 14 bytes that extracted from the packet
+    ip_header = packet[14:34]  # consist of the 15th byte and extends to the 34th byte
+    protocol = ip_header[9]  # extracted from the ip header at the 10th byte which is index 9
 
-    if protocol == 6:  # TCP
-        tcp_header = packet[34:54]
-        payload = packet[54:]
+    if protocol == 6:  # TCP protocol, got it from https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers
+        tcp_header = packet[34:54]  # consist of the 35th byte and extends to the 54th byte
+        payload_data = packet[54:]  # extracted from the packet, starting from the 55th byte
 
-        eth_fields = unpack("!6s6sH", eth_header)
+        eth_fields = unpack("!6s6sH", ethernet_header)
         source_mac = ':'.join('%02x' % b for b in eth_fields[0])
         dest_mac = ':'.join('%02x' % b for b in eth_fields[1])
 
@@ -33,7 +33,7 @@ def packetSniffer(packet):
         status_code = 0
         cache_control = 0
 
-        data = payload.hex()
+        data = payload_data.hex()
 
         output = f"source_ip: {source_ip}, dest_ip: {dest_ip}, source_port: {source_port}, " \
                  f"dest_port: {dest_port}, timestamp: {timestamp}, total_length: {total_length}, " \
