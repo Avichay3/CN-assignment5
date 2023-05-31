@@ -22,24 +22,28 @@ def process_tcp_packet(packet):
         file.write(f"{{ source_ip: {source_ip}, dest_ip: {destination_ip}, source_port: {source_port}, dest_port: {destination_port}, protocol: TCP, timestamp: {timestamp}, total_length: {total_length}, cache_flag: {cache_flag.hex()}, data: {packet.payload.hex()} }}\n")
 
 def process_udp_packet(packet):
+    """
+    This function as her name says, process UDP packets.
+    Overall, this function do as the function above but for UDP protocol
+    """
     source_ip = packet[IP].src
-    dest_ip = packet[IP].dst
+    destination_ip = packet[IP].dst
     source_port = packet[UDP].sport
-    dest_port = packet[UDP].dport
+    destination_port = packet[UDP].dport
     timestamp = packet.time
     total_length = len(packet)
 
     with open("output.txt", "a") as file:
-        file.write(f"{{ source_ip: {source_ip}, dest_ip: {dest_ip}, source_port: {source_port}, dest_port: {dest_port}, protocol: UDP, timestamp: {timestamp}, total_length: {total_length}, data: {packet.payload.hex()} }}\n")
+        file.write(f"{{ source_ip: {source_ip}, dest_ip: {destination_ip}, source_port: {source_port}, dest_port: {destination_port}, protocol: UDP, timestamp: {timestamp}, total_length: {total_length}, data: {packet.payload.hex()} }}\n")
 
 def process_icmp_packet(packet):
     source_ip = packet[IP].src
-    dest_ip = packet[IP].dst
+    destination_ip = packet[IP].dst
     timestamp = packet.time
     total_length = len(packet)
 
     with open("output.txt", "a") as file:
-        file.write(f"{{ source_ip: {source_ip}, dest_ip: {dest_ip}, protocol: ICMP, timestamp: {timestamp}, total_length: {total_length}, data: {packet.payload.hex()} }}\n")
+        file.write(f"{{ source_ip: {source_ip}, dest_ip: {destination_ip}, protocol: ICMP, timestamp: {timestamp}, total_length: {total_length}, data: {packet.payload.hex()} }}\n")
 
 def process_igmp_packet(packet):
     # IGMP packet processing logic goes here
